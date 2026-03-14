@@ -1,84 +1,87 @@
-<<<<<<< HEAD
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
         <div class="card">
             <div class="card-body p-4">
                 <h2 class="card-title text-center mb-4">Agendar Cita</h2>
                 <form action="/create" method="POST">
-                    <div class="mb-3">
-                        <label for="pet_name" class="form-label">Nombre del Perrito</label>
-                        <input type="text" class="form-control" id="pet_name" name="pet_name" required
-                            placeholder="Ej: Toby">
-                    </div>
+
+                    <h6 class="text-muted mb-3 mt-2">👤 Datos del Dueño</h6>
+
                     <div class="mb-3">
                         <label for="owner_name" class="form-label">Nombre del Dueño</label>
-                        <input type="text" class="form-control" id="owner_name" name="owner_name" required
-                            placeholder="Ej: Carlos Ruiz">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="owner_name"
+                            name="owner_name"
+                            required
+                            placeholder="Ej: Carlos Ruiz"
+                            list="owners-list">
+                        <datalist id="owners-list">
+                            <% owners.forEach(o => { %>
+                                <option value="<%= o.name %>"></option>
+                            <% }) %>
+                        </datalist>
+                        <div class="form-text">Si el dueño ya existe, selecciónalo de la lista.</div>
                     </div>
+
+                    <h6 class="text-muted mb-3 mt-3">🐾 Datos de la Mascota</h6>
+
+                    <div class="mb-3">
+                        <label for="pet_name" class="form-label">Nombre de la Mascota</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="pet_name"
+                            name="pet_name"
+                            required
+                            placeholder="Ej: Toby">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="species" class="form-label">Especie</label>
+                        <select class="form-control" id="species" name="species" required>
+                            <option value="">Seleccione una especie...</option>
+                            <option value="Perro">Perro</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Conejo">Conejo</option>
+                            <option value="Ave">Ave</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <h6 class="text-muted mb-3 mt-3">📅 Datos de la Cita</h6>
+
                     <div class="mb-3">
                         <label for="service" class="form-label">Servicio</label>
                         <select class="form-control" id="service" name="service" required>
                             <option value="">Seleccione un servicio...</option>
                             <option value="Baño y Perfume">Baño y Perfume</option>
                             <option value="Corte de Pelo">Corte de Pelo</option>
+                            <option value="Baño y Limpieza">Baño y Limpieza</option>
                             <option value="Limpieza de Oídos">Limpieza de Oídos</option>
                             <option value="Corte de Uñas">Corte de Uñas</option>
                             <option value="Spa Completo">Spa Completo</option>
                         </select>
                     </div>
+
                     <div class="mb-4">
                         <label for="appointment_date" class="form-label">Fecha y Hora</label>
-                        <input type="datetime-local" class="form-control" id="appointment_date" name="appointment_date"
+                        <input
+                            type="datetime-local"
+                            class="form-control"
+                            id="appointment_date"
+                            name="appointment_date"
                             required>
                     </div>
+
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">Programar Cita</button>
                         <a href="/" class="btn btn-link text-muted">Cancelar</a>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
-=======
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card">
-            <div class="card-body p-4">
-                <h2 class="card-title text-center mb-4">Agendar Cita</h2>
-                <form action="/create" method="POST">
-                    <div class="mb-3">
-                        <label for="pet_name" class="form-label">Nombre del Perrito</label>
-                        <input type="text" class="form-control" id="pet_name" name="pet_name" required
-                            placeholder="Ej: Toby">
-                    </div>
-                    <div class="mb-3">
-                        <label for="owner_name" class="form-label">Nombre del Dueño</label>
-                        <input type="text" class="form-control" id="owner_name" name="owner_name" required
-                            placeholder="Ej: Carlos Ruiz">
-                    </div>
-                    <div class="mb-3">
-                        <label for="service" class="form-label">Servicio</label>
-                        <select class="form-control" id="service" name="service" required>
-                            <option value="">Seleccione un servicio...</option>
-                            <option value="Baño y Perfume">Baño y Perfume</option>
-                            <option value="Corte de Pelo">Corte de Pelo</option>
-                            <option value="Limpieza de Oídos">Limpieza de Oídos</option>
-                            <option value="Corte de Uñas">Corte de Uñas</option>
-                            <option value="Spa Completo">Spa Completo</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="appointment_date" class="form-label">Fecha y Hora</label>
-                        <input type="datetime-local" class="form-control" id="appointment_date" name="appointment_date"
-                            required>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Programar Cita</button>
-                        <a href="/" class="btn btn-link text-muted">Cancelar</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
->>>>>>> 0cffe9f33155ef4f0ecd21ecfc624089b2682cbc
 </div>
