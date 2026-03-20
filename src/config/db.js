@@ -79,6 +79,9 @@ db.serialize(async () => {
         service          TEXT     NOT NULL,
         appointment_date TEXT     NOT NULL,
         status           TEXT     DEFAULT 'Scheduled',
+        weight           REAL,
+        temperature      REAL,
+        diagnosis        TEXT,
         created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (pet_id) REFERENCES Pets(id)
           ON DELETE RESTRICT
@@ -218,12 +221,14 @@ const getAppointmentById = (id) =>
     WHERE a.id = ?
   `, [id]);
 
-const createAppointment = async ({ pet_id, service, appointment_date }) => {
+const createAppointment = async ({ pet_id, service, appointment_date, weight, temperature, diagnosis }) => {
     const pet = await getPetById(pet_id);
     if (!pet) throw new Error(`No existe una mascota con id ${pet_id}.`);
     return run(
-        'INSERT INTO Appointments (pet_id, service, appointment_date) VALUES (?, ?, ?)',
-        [pet_id, service, appointment_date]
+        `INSERT INTO Appointments 
+      (pet_id, service, appointment_date, weight, temperature, diagnosis) 
+     VALUES (?, ?, ?, ?, ?, ?)`,
+        [pet_id, service, appointment_date, weight || null, temperature || null, diagnosis || null]
     );
 };
 

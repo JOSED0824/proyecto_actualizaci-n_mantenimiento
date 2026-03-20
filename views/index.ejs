@@ -13,6 +13,8 @@
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
+
+                        <%# ── Encabezado ──────────────────────────────────── %>
                         <div class="d-flex justify-content-between align-items-start">
                             <h5 class="card-title text-primary">
                                 <%= app.pet_name %>
@@ -23,6 +25,7 @@
                             </span>
                         </div>
 
+                        <%# ── Datos básicos ───────────────────────────────── %>
                         <p class="card-text mb-1">
                             <strong>Dueño:</strong> <%= app.owner_name %>
                         </p>
@@ -33,10 +36,33 @@
                             <strong>Fecha:</strong> <%= app.appointment_date %>
                         </p>
 
+                        <%# ── Constantes vitales (solo si existen) ────────── %>
+                        <% if (app.weight || app.temperature || app.diagnosis) { %>
+                            <hr>
+                            <p class="text-muted small mb-2">🩺 Constantes Vitales</p>
+                            <% if (app.weight) { %>
+                                <p class="card-text mb-1">
+                                    <strong>Peso:</strong> <%= app.weight %> kg
+                                </p>
+                            <% } %>
+                            <% if (app.temperature) { %>
+                                <p class="card-text mb-1">
+                                    <strong>Temperatura:</strong> <%= app.temperature %> °C
+                                </p>
+                            <% } %>
+                            <% if (app.diagnosis) { %>
+                                <p class="card-text mb-3">
+                                    <strong>Diagnóstico:</strong> <%= app.diagnosis %>
+                                </p>
+                            <% } %>
+                        <% } %>
+
+                        <%# ── Eliminar ─────────────────────────────────────── %>
                         <form action="/delete/<%= app.id %>" method="POST"
                             onsubmit="return confirm('¿Eliminar esta cita?')">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                         </form>
+
                     </div>
                 </div>
             </div>

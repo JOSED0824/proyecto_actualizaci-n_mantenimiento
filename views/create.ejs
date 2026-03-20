@@ -3,85 +3,140 @@
         <div class="card">
             <div class="card-body p-4">
                 <h2 class="card-title text-center mb-4">Agendar Cita</h2>
-                <form action="/create" method="POST">
 
-                    <h6 class="text-muted mb-3 mt-2">👤 Datos del Dueño</h6>
+                <%# Mensaje de error si faltan vitales %>
+                    <% if (typeof error !=='undefined' ) { %>
+                        <div class="alert alert-danger">
+                            <%= error %>
+                        </div>
+                        <% } %>
 
-                    <div class="mb-3">
-                        <label for="owner_name" class="form-label">Nombre del Dueño</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="owner_name"
-                            name="owner_name"
-                            required
-                            placeholder="Ej: Carlos Ruiz"
-                            list="owners-list">
-                        <datalist id="owners-list">
-                            <% owners.forEach(o => { %>
-                                <option value="<%= o.name %>"></option>
-                            <% }) %>
-                        </datalist>
-                        <div class="form-text">Si el dueño ya existe, selecciónalo de la lista.</div>
-                    </div>
+                            <form action="/create" method="POST">
 
-                    <h6 class="text-muted mb-3 mt-3">🐾 Datos de la Mascota</h6>
+                                <%# ── Dueño ──────────────────────────────────────────── %>
+                                    <h6 class="text-muted mb-3 mt-2">👤 Datos del Dueño</h6>
 
-                    <div class="mb-3">
-                        <label for="pet_name" class="form-label">Nombre de la Mascota</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="pet_name"
-                            name="pet_name"
-                            required
-                            placeholder="Ej: Toby">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="owner_name" class="form-label">Nombre del Dueño</label>
+                                        <input type="text" class="form-control" id="owner_name" name="owner_name"
+                                            required placeholder="Ej: Carlos Ruiz" list="owners-list">
+                                        <datalist id="owners-list">
+                                            <% owners.forEach(o=> { %>
+                                                <option value="<%= o.name %>"></option>
+                                                <% }) %>
+                                        </datalist>
+                                        <div class="form-text">Si el dueño ya existe, selecciónalo de la lista.</div>
+                                    </div>
 
-                    <div class="mb-3">
-                        <label for="species" class="form-label">Especie</label>
-                        <select class="form-control" id="species" name="species" required>
-                            <option value="">Seleccione una especie...</option>
-                            <option value="Perro">Perro</option>
-                            <option value="Gato">Gato</option>
-                            <option value="Conejo">Conejo</option>
-                            <option value="Ave">Ave</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                    </div>
+                                    <%# ── Mascota ─────────────────────────────────────────── %>
+                                        <h6 class="text-muted mb-3 mt-3">🐾 Datos de la Mascota</h6>
 
-                    <h6 class="text-muted mb-3 mt-3">📅 Datos de la Cita</h6>
+                                        <div class="mb-3">
+                                            <label for="pet_name" class="form-label">Nombre de la Mascota</label>
+                                            <input type="text" class="form-control" id="pet_name" name="pet_name"
+                                                required placeholder="Ej: Toby">
+                                        </div>
 
-                    <div class="mb-3">
-                        <label for="service" class="form-label">Servicio</label>
-                        <select class="form-control" id="service" name="service" required>
-                            <option value="">Seleccione un servicio...</option>
-                            <option value="Baño y Perfume">Baño y Perfume</option>
-                            <option value="Corte de Pelo">Corte de Pelo</option>
-                            <option value="Baño y Limpieza">Baño y Limpieza</option>
-                            <option value="Limpieza de Oídos">Limpieza de Oídos</option>
-                            <option value="Corte de Uñas">Corte de Uñas</option>
-                            <option value="Spa Completo">Spa Completo</option>
-                        </select>
-                    </div>
+                                        <div class="mb-3">
+                                            <label for="species" class="form-label">Especie</label>
+                                            <select class="form-control" id="species" name="species" required>
+                                                <option value="">Seleccione una especie...</option>
+                                                <option value="Perro">Perro</option>
+                                                <option value="Gato">Gato</option>
+                                                <option value="Conejo">Conejo</option>
+                                                <option value="Ave">Ave</option>
+                                                <option value="Otro">Otro</option>
+                                            </select>
+                                        </div>
 
-                    <div class="mb-4">
-                        <label for="appointment_date" class="form-label">Fecha y Hora</label>
-                        <input
-                            type="datetime-local"
-                            class="form-control"
-                            id="appointment_date"
-                            name="appointment_date"
-                            required>
-                    </div>
+                                        <%# ── Cita ───────────────────────────────────────────── %>
+                                            <h6 class="text-muted mb-3 mt-3">📅 Datos de la Cita</h6>
 
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Programar Cita</button>
-                        <a href="/" class="btn btn-link text-muted">Cancelar</a>
-                    </div>
+                                            <div class="mb-3">
+                                                <label for="service" class="form-label">Servicio</label>
+                                                <select class="form-control" id="service" name="service" required>
+                                                    <option value="">Seleccione un servicio...</option>
+                                                    <optgroup label="🩺 Consultas Médicas">
+                                                        <option value="Consulta General">Consulta General</option>
+                                                        <option value="Vacunación">Vacunación</option>
+                                                        <option value="Desparasitación">Desparasitación</option>
+                                                        <option value="Cirugía">Cirugía</option>
+                                                    </optgroup>
+                                                    <optgroup label="✂️ Peluquería">
+                                                        <option value="Baño y Perfume">Baño y Perfume</option>
+                                                        <option value="Corte de Pelo">Corte de Pelo</option>
+                                                        <option value="Baño y Limpieza">Baño y Limpieza</option>
+                                                        <option value="Limpieza de Oídos">Limpieza de Oídos</option>
+                                                        <option value="Corte de Uñas">Corte de Uñas</option>
+                                                        <option value="Spa Completo">Spa Completo</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
 
-                </form>
+                                            <div class="mb-4">
+                                                <label for="appointment_date" class="form-label">Fecha y Hora</label>
+                                                <input type="datetime-local" class="form-control" id="appointment_date"
+                                                    name="appointment_date" required>
+                                            </div>
+
+                                            <%# ── Constantes Vitales (solo consultas médicas) ─────── %>
+                                                <div id="vitals-section" style="display: none;">
+                                                    <h6 class="text-muted mb-3 mt-3">🩺 Constantes Vitales</h6>
+
+                                                    <div class="mb-3">
+                                                        <label for="weight" class="form-label">Peso (kg)</label>
+                                                        <input type="number" class="form-control" id="weight"
+                                                            name="weight" step="0.1" min="0" placeholder="Ej: 12.5">
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="temperature" class="form-label">Temperatura
+                                                            (°C)</label>
+                                                        <input type="number" class="form-control" id="temperature"
+                                                            name="temperature" step="0.1" min="0"
+                                                            placeholder="Ej: 38.5">
+                                                    </div>
+
+                                                    <div class="mb-4">
+                                                        <label for="diagnosis" class="form-label">Diagnóstico</label>
+                                                        <textarea class="form-control" id="diagnosis" name="diagnosis"
+                                                            rows="3"
+                                                            placeholder="Describa el diagnóstico..."></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-grid gap-2">
+                                                    <button type="submit" class="btn btn-primary">Programar
+                                                        Cita</button>
+                                                    <a href="/" class="btn btn-link text-muted">Cancelar</a>
+                                                </div>
+
+                            </form>
             </div>
         </div>
     </div>
 </div>
+
+<%# Script: muestra/oculta vitales según el servicio seleccionado %>
+    <script>
+        const medicalServices = [
+            'Consulta General',
+            'Vacunación',
+            'Desparasitación',
+            'Cirugía'
+        ];
+        const serviceSelect = document.getElementById('service');
+        const vitalsSection = document.getElementById('vitals-section');
+        const vitalsInputs = vitalsSection.querySelectorAll('input, textarea');
+
+        function toggleVitals() {
+            const isMedical = medicalServices.includes(serviceSelect.value);
+            vitalsSection.style.display = isMedical ? 'block' : 'none';
+            vitalsInputs.forEach(input => {
+                input.required = isMedical;
+            });
+        }
+
+        serviceSelect.addEventListener('change', toggleVitals);
+        toggleVitals(); // ejecutar al cargar por si hay valor previo
+    </script>

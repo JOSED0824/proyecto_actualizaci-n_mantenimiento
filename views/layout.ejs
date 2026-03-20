@@ -1,33 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peluquería Canina - <%= title %></title>
+    <title>Peluquería Canina - <%= title %>
+    </title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #6c5ce7;
-            --secondary-color: #a29bfe;
-            --bg-color: #f8f9fa;
-            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --primary-color: #3b82f6;
+            --secondary-color: #60a5fa;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --navbar-bg: #0f172a;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
+
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-color);
-            color: #2d3436;
+            color: var(--text-color);
         }
+
         .navbar {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background-color: var(--navbar-bg) !important;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
+
         .navbar-brand {
             font-weight: 600;
             color: var(--primary-color) !important;
         }
+
+        .nav-link {
+            color: var(--text-muted) !important;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
@@ -35,28 +55,130 @@
             padding: 10px 20px;
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             background-color: var(--secondary-color);
             border-color: var(--secondary-color);
             transform: translateY(-2px);
         }
+
         .card {
-            border: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 15px;
             box-shadow: var(--card-shadow);
             transition: transform 0.3s ease;
         }
+
         .card:hover {
             transform: translateY(-5px);
         }
+
+        .card-title {
+            color: var(--primary-color) !important;
+        }
+
+        .form-control,
+        .form-select,
+        select.form-control {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .form-control:focus,
+        .form-select:focus,
+        select.form-control:focus {
+            background-color: #0f172a;
+            border-color: var(--primary-color);
+            color: var(--text-color);
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-label {
+            color: var(--text-color);
+        }
+
+        .form-text {
+            color: var(--text-muted);
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--text-color);
+        }
+
+        hr {
+            border-color: var(--border-color);
+        }
+
+        .alert-danger {
+            background-color: #450a0a;
+            border-color: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        .badge {
+            background-color: #1d4ed8 !important;
+            color: #bfdbfe !important;
+        }
+
+        .btn-outline-danger {
+            color: #f87171;
+            border-color: #f87171;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #7f1d1d;
+            border-color: #f87171;
+            color: #fca5a5;
+        }
+
+        .btn-link {
+            color: var(--text-muted) !important;
+        }
+
         .footer {
             margin-top: 50px;
             padding: 20px 0;
             text-align: center;
-            color: #636e72;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+        }
+
+        optgroup {
+            background-color: var(--card-bg);
+            color: var(--text-muted);
+        }
+
+        option {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .card-text,
+        .card-body p {
+            color: #cbd5e1;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light mb-4">
         <div class="container">
@@ -90,4 +212,5 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
