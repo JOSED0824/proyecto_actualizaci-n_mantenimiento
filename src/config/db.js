@@ -115,7 +115,26 @@ db.serialize(async () => {
             [pet2.lastID, 'Baño y Limpieza', '2026-02-25 11:30']
         );
 
-        console.log('✅  Base de datos inicializada con tablas normalizadas');
+        // ── Tabla Users ─────────────────────────────────────────────────────────
+        await run(`
+        CREATE TABLE IF NOT EXISTS Users (
+        id         INTEGER  PRIMARY KEY AUTOINCREMENT,
+        username   TEXT     NOT NULL UNIQUE,
+        password   TEXT     NOT NULL,
+        role       TEXT     NOT NULL CHECK(role IN ('veterinario', 'recepcionista')),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+        // ── Usuarios de prueba ───────────────────────────────────────────────────
+        await run(`
+        INSERT OR IGNORE INTO Users (username, password, role) VALUES
+        ('admin',     'admin123', 'veterinario'),
+        ('recepcion', 'recep123', 'recepcionista')
+    `);
+
+    console.log('✅  Base de datos inicializada con tablas normalizadas');
+
     } catch (err) {
         console.error('❌  Error al inicializar la base de datos:', err.message);
     }
@@ -241,6 +260,10 @@ const updateAppointmentStatus = (id, status) => {
 const deleteAppointment = (id) =>
     run('DELETE FROM Appointments WHERE id = ?', [id]);
 
+// Buscar usuario por nombre de usuario
+const getUserByUsername = (username) =>
+  get('SELECT * FROM Users WHERE username = ?', [username]);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Exportar — se expone db para compatibilidad con código existente
 // ─────────────────────────────────────────────────────────────────────────────
@@ -267,4 +290,5 @@ module.exports = {
     createAppointment,
     updateAppointmentStatus,
     deleteAppointment,
+    getUserByUsername,
 };
