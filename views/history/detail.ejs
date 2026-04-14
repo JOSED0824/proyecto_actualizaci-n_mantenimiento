@@ -1,0 +1,160 @@
+<style>
+    /* ── Timeline ──────────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0.6rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--border-color);
+    }
+    .timeline-item { position: relative; margin-bottom: 1.75rem; }
+    .timeline-dot {
+        position: absolute;
+        left: -1.55rem;
+        top: 0.35rem;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        border: 2px solid var(--bg-color);
+        box-shadow: 0 0 0 2px var(--primary-color);
+    }
+    .timeline-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+    }
+    .timeline-date {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 0.25rem;
+    }
+    /* ── Status badges ─────────────────────────────────────── */
+    .status-scheduled  { background-color: #1e3a5f; color: #93c5fd; border: 1px solid #2563eb; }
+    .status-completed  { background-color: #14532d; color: #86efac; border: 1px solid #16a34a; }
+    .status-cancelled  { background-color: #450a0a; color: #fca5a5; border: 1px solid #dc2626; }
+    .status-badge {
+        font-size: 0.72rem;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    /* ── Read-only banner ──────────────────────────────────── */
+    .readonly-banner {
+        background-color: #1e293b;
+        border: 1px solid #334155;
+        border-left: 4px solid #475569;
+        border-radius: 8px;
+        color: #94a3b8;
+        font-size: 0.85rem;
+    }
+    /* ── Vital pill ────────────────────────────────────────── */
+    .vital-pill {
+        background-color: #0f172a;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 4px 12px;
+        font-size: 0.82rem;
+        color: var(--text-color);
+        display: inline-block;
+        margin: 2px;
+    }
+    .vital-pill span { color: var(--text-muted); }
+</style>
+
+<!-- Back button -->
+<div class="mb-3">
+    <a href="/history" class="btn btn-sm btn-outline-secondary" style="color:var(--text-muted); border-color:var(--border-color);">
+        ← Volver al listado
+    </a>
+</div>
+
+<!-- Read-only banner -->
+<div class="readonly-banner d-flex align-items-center gap-2 px-3 py-2 mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+    </svg>
+    <strong>Expediente de solo lectura</strong> — Este módulo es únicamente para consulta. No se permiten modificaciones desde esta vista.
+</div>
+
+<!-- Pet header -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-auto" style="font-size:3rem;">
+                <%= pet.species === 'Perro' ? '🐶' : pet.species === 'Gato' ? '🐱' : '🐾' %>
+            </div>
+            <div class="col">
+                <h3 class="card-title mb-0"><%= pet.name %>
+                    <span class="status-badge status-scheduled ms-2" style="font-size:0.75rem; vertical-align:middle;">
+                        <%= pet.species %>
+                    </span>
+                </h3>
+                <% if (pet.breed) { %><p class="text-muted mb-0"><small>Raza: <%= pet.breed %></small></p><% } %>
+                <% if (pet.birthdate) { %><p class="text-muted mb-0"><small>Nacimiento: <%= pet.birthdate %></small></p><% } %>
+            </div>
+            <div class="col-md-4 mt-3 mt-md-0">
+                <p class="mb-0 text-muted"><small>Dueño</small></p>
+                <p class="mb-0 fw-semibold"><%= pet.owner_name %></p>
+                <% if (pet.owner_phone) { %>
+                    <p class="mb-0 text-muted"><small>📞 <%= pet.owner_phone %></small></p>
+                <% } %>
+            </div>
+            <div class="col-auto text-end">
+                <div style="font-size:1.6rem; font-weight:700; color:var(--primary-color);"><%= history.length %></div>
+                <small class="text-muted">visita<%= history.length !== 1 ? 's' : '' %></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Timeline -->
+<h5 class="mb-3">Cronología de visitas</h5>
+
+<div class="timeline">
+    <% history.forEach((entry, index) => {
+        const statusClass = entry.status === 'Completed' ? 'status-completed'
+                          : entry.status === 'Cancelled'  ? 'status-cancelled'
+                          : 'status-scheduled';
+        const statusLabel = entry.status === 'Completed' ? 'Completada'
+                          : entry.status === 'Cancelled'  ? 'Cancelada'
+                          : 'Programada';
+    %>
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                    <div>
+                        <p class="timeline-date mb-1">📅 <%= entry.appointment_date %></p>
+                        <h6 class="mb-1" style="color:var(--text-color);">
+                            <%= entry.service %>
+                        </h6>
+                    </div>
+                    <span class="status-badge <%= statusClass %>"><%= statusLabel %></span>
+                </div>
+
+                <% if (entry.weight || entry.temperature || entry.diagnosis) { %>
+                    <hr style="border-color:var(--border-color); margin: 0.6rem 0;">
+                    <div class="d-flex flex-wrap gap-1 align-items-start">
+                        <% if (entry.weight) { %>
+                            <span class="vital-pill"><span>Peso:</span> <%= entry.weight %> kg</span>
+                        <% } %>
+                        <% if (entry.temperature) { %>
+                            <span class="vital-pill"><span>Temp:</span> <%= entry.temperature %> °C</span>
+                        <% } %>
+                        <% if (entry.diagnosis) { %>
+                            <div class="w-100 mt-1" style="font-size:0.85rem;">
+                                <span class="text-muted">Diagnóstico:</span>
+                                <span style="color:var(--text-color);"> <%= entry.diagnosis %></span>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    <% }) %>
+</div>
