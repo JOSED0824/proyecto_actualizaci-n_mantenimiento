@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Sesiones
 app.use(session({
-    secret: 'pelucan-secret-key',
+    secret: process.env.SESSION_SECRET || 'pelucan-secret-key',
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 } // 1 hora

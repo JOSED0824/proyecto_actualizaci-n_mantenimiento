@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: pelucan-spa
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: pelucan-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

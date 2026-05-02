@@ -1,6 +1,16 @@
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+const fs = require('fs');
 
-const db = new sqlite3.Database(':memory:');
+const dbPath = process.env.NODE_ENV === 'production'
+    ? '/opt/render/project/src/data/pelucan.db'
+    : path.join(__dirname, '..', '..', 'data', 'pelucan.db');
+
+// Ensure data directory exists in development
+const dataDir = path.dirname(dbPath);
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+
+const db = new sqlite3.Database(dbPath);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helper: ejecutar una query que no devuelve filas (CREATE, INSERT, UPDATE…)
@@ -89,31 +99,34 @@ db.serialize(async () => {
       )
     `);
 
-        // ── Migración: Rex (Juan Pérez) y Luna (Maria García) ───────────────────
-        const owner1 = await run(
-            'INSERT INTO Owners (name) VALUES (?)', ['Juan Pérez']
-        );
-        const owner2 = await run(
-            'INSERT INTO Owners (name) VALUES (?)', ['Maria García']
-        );
+        // ── Migración: Rex (Juan Pérez) y Luna (Maria García) — solo si la BD está vacía ──
+        const { count } = await get('SELECT COUNT(*) AS count FROM Owners');
+        if (count === 0) {
+            const owner1 = await run(
+                'INSERT INTO Owners (name) VALUES (?)', ['Juan Pérez']
+            );
+            const owner2 = await run(
+                'INSERT INTO Owners (name) VALUES (?)', ['Maria García']
+            );
 
-        const pet1 = await run(
-            'INSERT INTO Pets (owner_id, name, species) VALUES (?, ?, ?)',
-            [owner1.lastID, 'Rex', 'Perro']
-        );
-        const pet2 = await run(
-            'INSERT INTO Pets (owner_id, name, species) VALUES (?, ?, ?)',
-            [owner2.lastID, 'Luna', 'Gato']
-        );
+            const pet1 = await run(
+                'INSERT INTO Pets (owner_id, name, species) VALUES (?, ?, ?)',
+                [owner1.lastID, 'Rex', 'Perro']
+            );
+            const pet2 = await run(
+                'INSERT INTO Pets (owner_id, name, species) VALUES (?, ?, ?)',
+                [owner2.lastID, 'Luna', 'Gato']
+            );
 
-        await run(
-            'INSERT INTO Appointments (pet_id, service, appointment_date) VALUES (?, ?, ?)',
-            [pet1.lastID, 'Corte de Pelo', '2026-02-25 10:00']
-        );
-        await run(
-            'INSERT INTO Appointments (pet_id, service, appointment_date) VALUES (?, ?, ?)',
-            [pet2.lastID, 'Baño y Limpieza', '2026-02-25 11:30']
-        );
+            await run(
+                'INSERT INTO Appointments (pet_id, service, appointment_date) VALUES (?, ?, ?)',
+                [pet1.lastID, 'Corte de Pelo', '2026-02-25 10:00']
+            );
+            await run(
+                'INSERT INTO Appointments (pet_id, service, appointment_date) VALUES (?, ?, ?)',
+                [pet2.lastID, 'Baño y Limpieza', '2026-02-25 11:30']
+            );
+        }
 
         // ── Tabla Users ─────────────────────────────────────────────────────────
         await run(`
